@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
     <style>
+        /* --- CSS GABUNGAN --- */
         :root {
             --primary-green: #1a422a;
             --dark-green: #0f2b1a;
@@ -30,7 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* --- 1. PERBAIKAN NAVBAR (MOBILE FRIENDLY) --- */
+        /* NAVBAR (MOBILE FRIENDLY) */
         .navbar {
             position: fixed;
             top: 0;
@@ -40,7 +41,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(15, 43, 26, 0.95); /* Latar belakang gelap solid */
+            background: rgba(15, 43, 26, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             transition: all 0.3s ease;
@@ -73,7 +74,7 @@
 
         .nav-links a:hover { color: var(--accent-gold); }
 
-        /* --- 2. HERO SECTION --- */
+        /* HERO SECTION */
         .hero-section {
             height: 100vh;
             display: flex;
@@ -89,7 +90,7 @@
 
         .hero-content h1 {
             font-family: var(--font-heading);
-            font-size: clamp(3rem, 12vw, 6rem); /* Ukuran font dinamis */
+            font-size: clamp(3rem, 12vw, 6rem);
             line-height: 1.1;
             margin-bottom: 15px;
             color: var(--accent-gold);
@@ -117,7 +118,7 @@
             color: var(--dark-green);
         }
 
-        /* --- 3. LAYOUT CONTENT YANG RAPI --- */
+        /* LAYOUT & SECTIONS */
         .section-container {
             padding: 80px 20px;
             max-width: 1200px;
@@ -134,7 +135,17 @@
 
         .text-center { text-align: center; }
 
-        /* --- 4. WEATHER CARD (DIPERBAIKI) --- */
+        /* MAP STYLE */
+        #map {
+            height: 450px; /* Tinggi peta sedikit ditambah */
+            width: 100%;
+            border-radius: 15px;
+            /* Border diubah jadi emas agar kontras dengan peta berwarna */
+            border: 3px solid var(--accent-gold); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* WEATHER CARD */
         .weather-card {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
@@ -147,14 +158,13 @@
 
         .weather-status {
             margin-top: 20px;
-            min-height: 150px; /* Mencegah layout lompat */
+            min-height: 150px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        /* Sembunyikan elemen error saat loading */
         .hidden { display: none !important; }
 
         .weather-icon {
@@ -184,15 +194,7 @@
             gap: 8px;
         }
 
-        /* MAP FIX */
-        #map {
-            height: 400px;
-            width: 100%;
-            border-radius: 15px;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-
-        /* --- 5. RESPONSIVE MOBILE TWEAKS --- */
+        /* RESPONSIVE MOBILE */
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -208,9 +210,7 @@
             
             .section-title { font-size: 2.5rem; }
             
-            .hero-section {
-                padding-top: 80px; /* Kompensasi navbar tinggi */
-            }
+            .hero-section { padding-top: 80px; }
         }
     </style>
 </head>
@@ -234,7 +234,7 @@
     </header>
 
     <section id="destinasi" class="section-container">
-        <h2 class="section-title">Jalur Ekspedisi</h2>
+        <h2 class="section-title">Peta Ekspedisi</h2>
         <div id="map"></div>
     </section>
 
@@ -251,8 +251,8 @@
             <div style="margin-top:10px; font-size:0.8rem; color: #ccc;">atau ketik manual:</div>
             
             <div style="margin-top: 10px; display:flex; justify-content:center; gap:10px;">
-                <input type="text" id="cityInput" placeholder="Contoh: Malang" style="padding:8px 15px; border-radius:20px; border:none; width:60%;">
-                <button onclick="getWeatherByCity()" style="padding:8px 15px; border-radius:20px; border:none; background:#fff; cursor:pointer;">Cari</button>
+                <input type="text" id="cityInput" placeholder="Contoh: Malang" style="padding:8px 15px; border-radius:20px; border:none; width:60%; color:#333;">
+                <button onclick="getWeatherByCity()" style="padding:8px 15px; border-radius:20px; border:none; background:#fff; cursor:pointer; color:#333; font-weight:bold;">Cari</button>
             </div>
 
             <div id="loading" class="hidden" style="margin-top:20px;">Mengambil data satelit...</div>
@@ -281,25 +281,28 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // --- 1. SETUP PETA ---
-        const map = L.map('map').setView([-7.942493, 112.953012], 10); // Default Bromo
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap &copy; CARTO'
+        // --- 1. SETUP PETA BERWARNA ---
+        // Koordinat tengah (Sekitar Jawa Timur/Bromo)
+        const map = L.map('map').setView([-7.942493, 112.953012], 11); 
+
+        // PERUBAHAN DI SINI: Menggunakan Tile Layer Berwarna (CARTO Voyager)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+            maxZoom: 19
         }).addTo(map);
         
-        // Marker Gunung Bromo
-        L.marker([-7.942493, 112.953012]).addTo(map).bindPopup("Gunung Bromo").openPopup();
+        // Marker Contoh
+        L.marker([-7.942493, 112.953012]).addTo(map).bindPopup("<b>Gunung Bromo</b><br>Jalur Penanjakan.").openPopup();
+        L.marker([-8.0219, 112.9500]).addTo(map).bindPopup("<b>Semeru (Mahameru)</b><br>Puncak tertinggi Jawa.");
 
-        // --- 2. SETUP CUACA (AUTO LOCATION) ---
-        // PENTING: Ganti 'API_KEY_KAMU' dengan API Key asli dari OpenWeatherMap.
-        // Jika tidak diganti, cuaca tidak akan muncul.
-        const API_KEY = 'bd5e378503939ddaee76f12ad7a97608'; // Saya pinjamkan API Key Demo sementara (bisa limit sewaktu-waktu)
+
+        // --- 2. SETUP CUACA (SAMA SEPERTI SEBELUMNYA) ---
+        const API_KEY = 'bd5e378503939ddaee76f12ad7a97608'; // API Key Demo
 
         const weatherResult = document.getElementById('weatherResult');
         const errorMsg = document.getElementById('errorMsg');
         const loading = document.getElementById('loading');
 
-        // Fungsi Deteksi Lokasi Pengunjung
         function getLocation() {
             loading.classList.remove('hidden');
             errorMsg.classList.add('hidden');
@@ -308,23 +311,20 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
             } else {
-                showError({message: "Browser ini tidak mendukung Geolocation."});
+                showError({message: "Browser tidak mendukung Geolocation."});
             }
         }
 
         function showPosition(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            fetchWeather(lat, lon, 'coords');
+            fetchWeather(position.coords.latitude, position.coords.longitude, 'coords');
         }
 
         function showError(error) {
             loading.classList.add('hidden');
             errorMsg.classList.remove('hidden');
-            errorMsg.innerText = "Gagal mendeteksi lokasi: " + (error.message || "Izin ditolak");
+            errorMsg.innerText = "Gagal mendeteksi lokasi. Pastikan GPS aktif dan izin diberikan.";
         }
 
-        // Fungsi Cari Kota Manual
         function getWeatherByCity() {
             const city = document.getElementById('cityInput').value;
             if(!city) return;
@@ -334,7 +334,6 @@
             fetchWeather(city, null, 'city');
         }
 
-        // Fungsi Utama Fetch API
         async function fetchWeather(param1, param2, type) {
             let url;
             if (type === 'coords') {
@@ -346,10 +345,8 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-
                 if (data.cod !== 200) throw new Error(data.message);
 
-                // Update UI
                 document.getElementById('wTemp').innerText = Math.round(data.main.temp) + "°C";
                 document.getElementById('wDesc').innerText = data.weather[0].description;
                 document.getElementById('wCity').innerText = data.name;
@@ -362,7 +359,7 @@
             } catch (err) {
                 loading.classList.add('hidden');
                 errorMsg.classList.remove('hidden');
-                errorMsg.innerText = "Error: " + err.message;
+                errorMsg.innerText = "Error: Kota tidak ditemukan atau masalah koneksi.";
             }
         }
     </script>
