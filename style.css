@@ -1,16 +1,15 @@
-/* style.css */
+/* style.css - FINAL VERSION */
 
-/* --- GLOBAL VARIABLES --- */
+/* --- 1. SETUP VARIABEL & RESET --- */
 :root {
     --primary-green: #173d1c;
-    --dark-green: #0d2410; /* Varian lebih gelap untuk footer/kontras */
+    --dark-green: #0d2410;
     --secondary-earth: #5e4a2b;
     --accent-gold: #d8ba8c;
     --text-light: #f6f6f6;
-    --text-muted: rgba(246, 246, 246, 0.7); /* Untuk teks minimalis */
+    --text-muted: rgba(246, 246, 246, 0.7);
     --font-heading: 'Amatic SC', cursive;
     --font-body: 'Montserrat', sans-serif;
-    --transition-speed: 0.4s;
 }
 
 * {
@@ -24,32 +23,27 @@ body {
     color: var(--text-light);
     font-family: var(--font-body);
     overflow-x: hidden;
-    line-height: 1.8; /* Line height ditambah agar lebih clean */
-    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
 }
 
-/* --- NAVBAR FIXED & ADAPTIVE (BUG FIX) --- */
+/* --- 2. NAVBAR (MENU ATAS) --- */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 25px 8%;
+    padding: 20px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
     transition: all 0.4s ease;
-    /* Default: Transparan total agar menyatu dengan Hero */
-    background: transparent; 
 }
 
-/* State saat di-scroll (Ditambahkan via JS) */
 .navbar.scrolled {
-    padding: 15px 8%; /* Mengecil sedikit */
-    background: rgba(13, 36, 16, 0.9); /* Hijau gelap transparan */
-    backdrop-filter: blur(15px); /* Efek kaca buram modern */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: rgba(13, 36, 16, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 5%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
 .logo {
@@ -59,46 +53,30 @@ body {
     font-weight: bold;
     letter-spacing: 2px;
     text-decoration: none;
+    white-space: nowrap; /* Mencegah logo turun baris */
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 40px;
+    gap: 25px;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--text-light);
-    font-weight: 500;
-    text-transform: uppercase;
     font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
     letter-spacing: 1px;
     transition: color 0.3s;
-    position: relative;
 }
 
-/* Efek garis bawah saat hover */
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: -5px;
-    left: 0;
-    background-color: var(--accent-gold);
-    transition: width 0.3s;
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.nav-links a.active {
+.nav-links a:hover, .nav-links a.active {
     color: var(--accent-gold);
 }
 
-/* --- HERO SECTION --- */
+/* --- 3. HERO SECTION (GAMBAR UTAMA) --- */
 .hero-section {
     position: relative;
     height: 100vh;
@@ -107,6 +85,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* Fallback jika gambar gagal */
+    background: linear-gradient(to bottom, #1e3c72, #2a5298); 
 }
 
 .parallax-layer {
@@ -114,193 +94,177 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 110%;
+    height: 100%; /* Ubah ke 100% agar pas di layar HP */
     background-size: cover;
     background-position: center;
     will-change: transform;
 }
 
-/* Ganti URL ini dengan aset asli Anda */
-.layer-bg { background: linear-gradient(to bottom, #2b32b2, #1488cc); z-index: 1; }
-.layer-mid { background-image: url('https://user-images.githubusercontent.com/18306059/224534729-e8538749-06b2-4d7a-b9c1-525c345b5971.png'); z-index: 2; background-repeat: no-repeat; background-position: bottom center; background-size: contain; }
-.layer-fg { background-image: url('https://user-images.githubusercontent.com/18306059/224534734-ec20302b-871d-4078-a359-00f3c054b419.png'); z-index: 3; background-position: bottom center; background-size: cover; }
-
-/* Halaman Sub-Header (Untuk halaman selain Home) */
-.sub-header {
-    height: 60vh;
-    background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+/* URL GAMBAR BARU (Pasti Jalan) */
+.layer-bg { 
+    background-image: url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=1920&auto=format&fit=crop'); 
+    z-index: 1; 
+    opacity: 0.8;
 }
-.sub-header::after {
+/* Kita gunakan gradient overlay agar teks terbaca */
+.hero-section::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(23,61,28,0.3), var(--primary-green));
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--primary-green));
+    z-index: 4;
 }
 
 .hero-content {
     position: relative;
     z-index: 10;
     text-align: center;
-    max-width: 800px;
     padding: 0 20px;
+    margin-top: -50px; /* Sedikit naik ke atas */
 }
 
 .hero-content h1 {
     font-family: var(--font-heading);
-    font-size: clamp(4rem, 8vw, 7rem); /* Responsive font size */
+    font-size: clamp(3.5rem, 10vw, 7rem); /* Ukuran font otomatis menyesuaikan layar */
     line-height: 1;
-    margin-bottom: 1rem;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
 .hero-content p {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    margin-bottom: 2rem;
-    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .cta-button {
     display: inline-block;
-    padding: 12px 35px;
-    background-color: transparent;
-    color: var(--accent-gold);
+    padding: 12px 30px;
     border: 1px solid var(--accent-gold);
-    font-size: 0.9rem;
-    letter-spacing: 2px;
+    color: var(--accent-gold);
     text-decoration: none;
     border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 1px;
     transition: all 0.3s;
-    text-transform: uppercase;
 }
 
 .cta-button:hover {
-    background-color: var(--accent-gold);
+    background: var(--accent-gold);
     color: var(--dark-green);
-    transform: translateY(-3px);
 }
 
-/* --- SECTION CONTENT (MINIMALIST) --- */
+/* --- 4. KONTEN UMUM --- */
 .content-section {
-    padding: 120px 8%; /* Padding lebih besar */
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.section-header-clean {
+    padding: 80px 6%;
     text-align: center;
-    margin-bottom: 80px;
 }
 
-.section-header-clean h2 {
-    font-family: var(--font-heading);
-    font-size: 3.5rem;
-    color: var(--accent-gold);
-    margin-bottom: 15px;
-}
-
-.section-header-clean p {
-    color: var(--text-muted);
-    font-size: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* Grid Layout untuk Kartu */
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-}
-
-.minimal-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.4s ease;
-}
-
-.minimal-card:hover {
-    transform: translateY(-10px);
-    background: rgba(255,255,255,0.05);
-}
-
-.card-image {
-    height: 250px;
-    background-color: #333;
-    background-size: cover;
-    background-position: center;
-}
-
-.card-body {
-    padding: 30px;
-}
-
-.card-body h3 {
-    font-family: var(--font-heading);
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: var(--text-light);
-}
-
-.card-body p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
+.reveal-type {
     margin-bottom: 20px;
-    line-height: 1.8;
 }
 
-.text-link {
-    color: var(--accent-gold);
-    text-decoration: none;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-}
-
-/* --- FOOTER (CLEAN) --- */
-footer {
-    background-color: var(--dark-green);
-    padding: 80px 5% 40px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    text-align: center;
-}
-
-.footer-logo {
+h2 {
     font-family: var(--font-heading);
     font-size: 3rem;
     color: var(--accent-gold);
-    display: block;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-.footer-links {
+/* --- 5. STYLE PETA & CUACA (FIXED) --- */
+#trekking-map {
+    height: 350px;
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 30px;
+    border: 2px solid rgba(255,255,255,0.1);
+    z-index: 1;
+}
+
+.weather-section {
+    padding: 60px 5%;
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-bottom: 50px;
-    list-style: none;
 }
 
-.footer-links a {
-    color: var(--text-muted);
-    text-decoration: none;
+.weather-card {
+    background: rgba(255, 255, 255, 0.05); /* Efek Kaca */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.weather-input {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.weather-input input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 50px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    outline: none;
+    padding-left: 20px;
+}
+
+.weather-input button {
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: none;
+    background: var(--accent-gold);
+    color: var(--dark-green);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* --- 6. FOOTER --- */
+footer {
+    background: var(--dark-green);
+    padding: 40px 20px;
+    text-align: center;
     font-size: 0.9rem;
-    transition: color 0.3s;
+    color: rgba(255,255,255,0.4);
+    margin-top: 50px;
 }
 
-.footer-links a:hover { color: var(--text-light); }
+/* --- 7. MOBILE RESPONSIVE (PENTING!) --- */
+@media (max-width: 768px) {
+    /* Navbar berubah jadi vertikal di HP */
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        background: rgba(13, 36, 16, 0.95); /* Selalu ada background di HP */
+        padding: 15px;
+    }
 
-.copyright {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.3);
-}
+    .logo {
+        font-size: 1.8rem;
+    }
 
-/* Helper Utilities */
-.hidden { display: none; }
+    .nav-links {
+        gap: 20px;
+    }
+
+    .nav-links a {
+        font-size: 0.75rem;
+    }
+    
+    /* Ukuran font judul di HP dikecilkan */
+    h2 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 3.5rem; /* Paksa font lebih kecil di HP */
+    }
+    }
