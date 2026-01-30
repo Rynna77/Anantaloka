@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelajah Alam Nusantara - Portal Petualangan</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">JEJAK RIMBA</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Beranda</a></li>
+            <li><a href="#about">Tentang Alam</a></li>
+            <li><a href="#map-section">Peta Jalur</a></li>
+            <li><a href="#weather-section">Info Cuaca</a></li>
+        </ul>
+    </nav>
+
+    <header id="hero" class="hero-section">
+        <div class="parallax-layer layer-bg" id="sky"></div>
+        <div class="parallax-layer layer-mid" id="mountains"></div>
+        <div class="parallax-layer layer-fg" id="forest"></div>
+        
+        <div class="hero-content">
+            <h1 class="animate-text">Temukan Panggilan Alam</h1>
+            <p class="animate-text delay">Menjelajahi keindahan gunung, lembah, dan sungai Indonesia.</p>
+            <a href="#about" class="cta-button animate-text delay-2">Mulai Petualangan</a>
+        </div>
+    </header>
+
+    <main>
+        
+        <section id="about" class="content-section">
+            <div class="video-bg-container">
+                <video autoplay muted loop playsinline class="bg-video">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+                <div class="overlay-dark"></div>
+            </div>
+            
+            <div class="section-content text-center">
+                <h2 class="reveal-type">Harmoni Ekosistem</h2>
+                <p class="reveal-type">Alam bukan sekadar tempat yang kita kunjungi. Alam adalah rumah. Dengarkan suara sungai yang mengalir dan angin yang berbisik di antara pepohonan.</p>
+            </div>
+        </section>
+
+        <section id="map-section" class="interactive-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Jalur Pendakian Unggulan</h2>
+                    <p>Jelajahi topografi dan rute terbaik untuk ekspedisi Anda selanjutnya.</p>
+                </div>
+                <div id="trekking-map"></div>
+            </div>
+        </section>
+
+        <section id="weather-section" class="weather-section">
+            <div class="weather-card">
+                <h3>Kondisi Di Lapangan</h3>
+                <div class="weather-input">
+                    <input type="text" id="city-input" placeholder="Masukkan nama gunung/kota...">
+                    <button id="search-btn">Cek Cuaca</button>
+                </div>
+                <div class="weather-display" id="weather-result">
+                    <div class="loader hidden"></div>
+                    <div class="weather-data hidden">
+                        <img id="weather-icon" src="" alt="Ikon Cuaca">
+                        <h4 id="temp-display">--°C</h4>
+                        <p id="desc-display">--</p>
+                        <div class="details">
+                            <span>Kelembapan: <span id="humidity">--%</span></span>
+                            <span>Angin: <span id="wind">-- m/s</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Jejak Rimba. Melestarikan Alam untuk Masa Depan.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
