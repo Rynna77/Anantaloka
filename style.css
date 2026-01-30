@@ -1,17 +1,18 @@
 /* style.css */
 
-/* Variabel Global untuk Konsistensi Tema */
+/* --- GLOBAL VARIABLES --- */
 :root {
     --primary-green: #173d1c;
+    --dark-green: #0d2410; /* Varian lebih gelap untuk footer/kontras */
     --secondary-earth: #5e4a2b;
     --accent-gold: #d8ba8c;
     --text-light: #f6f6f6;
+    --text-muted: rgba(246, 246, 246, 0.7); /* Untuk teks minimalis */
     --font-heading: 'Amatic SC', cursive;
     --font-body: 'Montserrat', sans-serif;
     --transition-speed: 0.4s;
 }
 
-/* Reset Dasar */
 * {
     margin: 0;
     padding: 0;
@@ -22,52 +23,82 @@ body {
     background-color: var(--primary-green);
     color: var(--text-light);
     font-family: var(--font-body);
-    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
-    line-height: 1.6;
+    overflow-x: hidden;
+    line-height: 1.8; /* Line height ditambah agar lebih clean */
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Navigasi */
+/* --- NAVBAR FIXED & ADAPTIVE (BUG FIX) --- */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 20px 5%;
+    padding: 25px 8%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
-    transition: background 0.3s ease;
+    transition: all 0.4s ease;
+    /* Default: Transparan total agar menyatu dengan Hero */
+    background: transparent; 
+}
+
+/* State saat di-scroll (Ditambahkan via JS) */
+.navbar.scrolled {
+    padding: 15px 8%; /* Mengecil sedikit */
+    background: rgba(13, 36, 16, 0.9); /* Hijau gelap transparan */
+    backdrop-filter: blur(15px); /* Efek kaca buram modern */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .logo {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--accent-gold);
     font-weight: bold;
     letter-spacing: 2px;
+    text-decoration: none;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 30px;
+    gap: 40px;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--text-light);
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    transition: color var(--transition-speed);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+    position: relative;
 }
 
-.nav-links a:hover {
+/* Efek garis bawah saat hover */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-gold);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a.active {
     color: var(--accent-gold);
 }
 
-/* HERO SECTION - Kunci Efek Paralaks */
+/* --- HERO SECTION --- */
 .hero-section {
     position: relative;
     height: 100vh;
@@ -78,40 +109,36 @@ body {
     align-items: center;
 }
 
-/* Gaya Generik untuk Lapisan Paralaks */
 .parallax-layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 110%; /* Sedikit lebih tinggi untuk ruang gerak paralaks */
+    height: 110%;
     background-size: cover;
     background-position: center;
-    will-change: transform; /* Optimasi performa rendering browser */
+    will-change: transform;
 }
 
-/* Lapisan Spesifik (Gunakan aset gambar PNG transparan di sini) */
-/* Ilustrasi: Langit paling belakang, Gunung di tengah, Pohon di depan */
-.layer-bg {
-    background: linear-gradient(to bottom, #2b32b2, #1488cc); /* Langit gradien */
-    z-index: 1;
-}
+/* Ganti URL ini dengan aset asli Anda */
+.layer-bg { background: linear-gradient(to bottom, #2b32b2, #1488cc); z-index: 1; }
+.layer-mid { background-image: url('https://user-images.githubusercontent.com/18306059/224534729-e8538749-06b2-4d7a-b9c1-525c345b5971.png'); z-index: 2; background-repeat: no-repeat; background-position: bottom center; background-size: contain; }
+.layer-fg { background-image: url('https://user-images.githubusercontent.com/18306059/224534734-ec20302b-871d-4078-a359-00f3c054b419.png'); z-index: 3; background-position: bottom center; background-size: cover; }
 
-.layer-mid {
-    /* Ganti url ini dengan gambar gunung PNG transparan */
-    background-image: url('https://user-images.githubusercontent.com/18306059/224534729-e8538749-06b2-4d7a-b9c1-525c345b5971.png'); 
-    z-index: 2;
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: contain;
+/* Halaman Sub-Header (Untuk halaman selain Home) */
+.sub-header {
+    height: 60vh;
+    background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
-
-.layer-fg {
-    /* Ganti url ini dengan gambar pohon/lembah depan PNG transparan */
-    background-image: url('https://user-images.githubusercontent.com/18306059/224534734-ec20302b-871d-4078-a359-00f3c054b419.png');
-    z-index: 3;
-    background-position: bottom center;
-    background-size: cover;
+.sub-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(23,61,28,0.3), var(--primary-green));
 }
 
 .hero-content {
@@ -119,112 +146,161 @@ body {
     z-index: 10;
     text-align: center;
     max-width: 800px;
+    padding: 0 20px;
 }
 
 .hero-content h1 {
     font-family: var(--font-heading);
-    font-size: 6rem;
+    font-size: clamp(4rem, 8vw, 7rem); /* Responsive font size */
     line-height: 1;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    color: var(--text-muted);
 }
 
 .cta-button {
     display: inline-block;
-    margin-top: 30px;
-    padding: 15px 40px;
-    background-color: var(--accent-gold);
-    color: var(--secondary-earth);
-    font-weight: bold;
+    padding: 12px 35px;
+    background-color: transparent;
+    color: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
     text-decoration: none;
     border-radius: 50px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
+    text-transform: uppercase;
 }
 
 .cta-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(216, 186, 140, 0.4);
+    background-color: var(--accent-gold);
+    color: var(--dark-green);
+    transform: translateY(-3px);
 }
 
-/* SECTION VIDEO BACKGROUND */
-.video-bg-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.bg-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Memastikan video memenuhi area tanpa distorsi */
-}
-
-.overlay-dark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6); /* Gelapkan video agar teks terbaca */
-}
-
+/* --- SECTION CONTENT (MINIMALIST) --- */
 .content-section {
-    position: relative;
-    padding: 150px 20px;
-    color: white;
-}
-
-/* PETA & CUACA */
-.interactive-section,.weather-section {
-    padding: 100px 5%;
-    background-color: var(--primary-green);
-}
-
-#trekking-map {
-    height: 500px;
-    width: 100%;
-    border-radius: 20px;
-    border: 4px solid var(--secondary-earth);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    margin-top: 40px;
-}
-
-.weather-card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px); /* Efek kaca buram */
-    padding: 40px;
-    border-radius: 20px;
-    max-width: 500px;
+    padding: 120px 8%; /* Padding lebih besar */
+    max-width: 1400px;
     margin: 0 auto;
-    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.section-header-clean {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-header-clean h2 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+}
+
+.section-header-clean p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Grid Layout untuk Kartu */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.minimal-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.minimal-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.05);
+}
+
+.card-image {
+    height: 250px;
+    background-color: #333;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.card-body h3 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--text-light);
+}
+
+.card-body p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.text-link {
+    color: var(--accent-gold);
+    text-decoration: none;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* --- FOOTER (CLEAN) --- */
+footer {
+    background-color: var(--dark-green);
+    padding: 80px 5% 40px;
+    border-top: 1px solid rgba(255,255,255,0.05);
     text-align: center;
 }
 
-.weather-input {
+.footer-logo {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 30px;
+}
+
+.footer-links {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    list-style: none;
 }
 
-.weather-input input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
 }
 
-.weather-input button {
-    padding: 10px 20px;
-    background: var(--accent-gold);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
+.footer-links a:hover { color: var(--text-light); }
+
+.copyright {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.3);
 }
 
-/* Utilitas */
+/* Helper Utilities */
 .hidden { display: none; }
