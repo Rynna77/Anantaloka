@@ -1,0 +1,138 @@
+/* --- FILE 2: destinasi.css (KHUSUS HALAMAN SEVEN SUMMITS) --- */
+
+/* Variabel Warna (Tetap Sama agar konsisten) */
+:root {
+    --primary: #1a422a;
+    --secondary: #0f2b1a;
+    --accent: #e0c090;
+    --text: #f4f7f5;
+    --glass: rgba(255, 255, 255, 0.05);
+    --font-heading: 'Amatic SC', cursive;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--secondary);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* --- NAVBAR (Duplikat dari style.css agar tampilan menu sama) --- */
+.navbar {
+    position: fixed; top: 0; width: 100%; padding: 20px 8%;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 1000; transition: 0.4s;
+}
+.navbar.scrolled {
+    background: rgba(15, 43, 26, 0.9);
+    backdrop-filter: blur(15px); padding: 15px 8%;
+}
+.logo {
+    font-family: var(--font-heading); font-size: 2.5rem;
+    color: var(--accent); text-decoration: none; font-weight: bold;
+}
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a {
+    color: var(--text); text-decoration: none;
+    font-weight: 500; font-size: 0.9rem; text-transform: uppercase;
+    letter-spacing: 1px; transition: 0.3s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+/* --- HERO SECTION (Versi Pendek untuk Sub-Page) --- */
+.hero-section {
+    height: 60vh; /* Lebih pendek dari halaman utama */
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; overflow: hidden;
+}
+.parallax-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 120%;
+    /* Gambar background berbeda untuk halaman destinasi */
+    background: linear-gradient(rgba(0,0,0,0.3), var(--secondary)), 
+                url('https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&q=80');
+    background-size: cover; background-position: center;
+    z-index: -1;
+}
+.hero-content h1 {
+    font-family: var(--font-heading); font-size: clamp(3.5rem, 8vw, 6rem);
+    color: var(--accent); margin-bottom: 10px;
+}
+.hero-content p { font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+/* --- CONTENT SECTION & GRID LAYOUT (KHUSUS KARTU GUNUNG) --- */
+.content-section { padding: 80px 8%; }
+.container { max-width: 1200px; margin: 0 auto; }
+
+.summits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsif otomatis */
+    gap: 40px; padding: 20px 0;
+}
+
+.summit-card {
+    background: var(--glass);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer; position: relative;
+}
+
+.summit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    border-color: var(--accent);
+}
+
+.card-img { height: 250px; overflow: hidden; position: relative; }
+.card-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+}
+.summit-card:hover .card-img img { transform: scale(1.1); }
+
+/* Icon overlay saat hover */
+.overlay-icon {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.6); color: var(--accent);
+    padding: 10px 20px; border-radius: 30px;
+    font-weight: bold; opacity: 0; transition: 0.3s;
+}
+.summit-card:hover .overlay-icon { opacity: 1; }
+
+.card-info { padding: 25px; }
+.card-info h3 {
+    font-family: var(--font-heading); font-size: 2rem;
+    color: var(--accent); margin-bottom: 5px;
+}
+.card-info .height {
+    display: block; font-size: 0.9rem; color: #aaa;
+    margin-bottom: 15px; font-weight: bold; text-transform: uppercase;
+}
+
+/* --- FOOTER --- */
+footer {
+    text-align: center; padding: 50px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.4);
+}
+
+/* --- ANIMASI BURUNG (KHUSUS HALAMAN INI) --- */
+.flying-birds {
+    position: fixed; top: 20%; left: -200px;
+    width: 150px; opacity: 0.8; z-index: 9999;
+    pointer-events: none;
+    filter: brightness(0) invert(1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .navbar { flex-direction: column; padding: 15px; background: var(--secondary); }
+    .nav-links { margin-top: 20px; gap: 15px; font-size: 0.8rem; }
+    .summits-grid { grid-template-columns: 1fr; } /* 1 Kolom di HP */
+  }
