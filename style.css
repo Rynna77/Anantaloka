@@ -1,114 +1,306 @@
-// script.js
+/* style.css */
 
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // --- 0. NAVBAR SCROLL EFFECT (NEW) ---
-    const navbar = document.querySelector('.navbar');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+/* --- GLOBAL VARIABLES --- */
+:root {
+    --primary-green: #173d1c;
+    --dark-green: #0d2410; /* Varian lebih gelap untuk footer/kontras */
+    --secondary-earth: #5e4a2b;
+    --accent-gold: #d8ba8c;
+    --text-light: #f6f6f6;
+    --text-muted: rgba(246, 246, 246, 0.7); /* Untuk teks minimalis */
+    --font-heading: 'Amatic SC', cursive;
+    --font-body: 'Montserrat', sans-serif;
+    --transition-speed: 0.4s;
+}
 
-    // --- 1. INISIALISASI SMOOTH SCROLL (LENIS) ---
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        smooth: true,
-    });
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+body {
+    background-color: var(--primary-green);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.8; /* Line height ditambah agar lebih clean */
+    -webkit-font-smoothing: antialiased;
+}
 
-    gsap.registerPlugin(ScrollTrigger);
-    
-    // --- 2. ANIMASI PARALLAX (Hanya di Homepage) ---
-    if(document.querySelector('#hero')) {
-        const heroTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
+/* --- NAVBAR FIXED & ADAPTIVE (BUG FIX) --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 25px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.4s ease;
+    /* Default: Transparan total agar menyatu dengan Hero */
+    background: transparent; 
+}
 
-        heroTimeline.to("#mountains", { yPercent: 30, ease: "none" }, 0);
-        heroTimeline.to("#sky", { yPercent: 15, ease: "none" }, 0);
-        heroTimeline.to(".hero-content", { yPercent: -50, opacity: 0, ease: "none" }, 0);
-        heroTimeline.to("#forest", { scale: 1.1, yPercent: 10, ease: "none" }, 0);
-    }
+/* State saat di-scroll (Ditambahkan via JS) */
+.navbar.scrolled {
+    padding: 15px 8%; /* Mengecil sedikit */
+    background: rgba(13, 36, 16, 0.9); /* Hijau gelap transparan */
+    backdrop-filter: blur(15px); /* Efek kaca buram modern */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
 
-    // --- 3. ANIMASI TEXT REVEAL ---
-    const revealElements = document.querySelectorAll(".reveal-type");
-    revealElements.forEach(element => {
-        gsap.fromTo(element, 
-            { y: 30, opacity: 0 },
-            {
-                y: 0, opacity: 1, duration: 1, ease: "power2.out",
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-    });
+.logo {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--accent-gold);
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-decoration: none;
+}
 
-    // --- 4. MAP LEAFLET (Cek keberadaan elemen dulu) ---
-    if(document.getElementById('trekking-map')) {
-        const defaultLat = -8.4113;
-        const defaultLng = 116.4573;
-        const map = L.map('trekking-map').setView([defaultLat, defaultLng], 13);
-        
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
-        }).addTo(map); // Menggunakan Peta Mode Gelap agar sesuai tema
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
 
-        L.marker([defaultLat, defaultLng]).addTo(map)
-           .bindPopup('<b>Basecamp Rinjani</b><br>Titik awal pendakian.')
-           .openPopup();
-    }
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+    position: relative;
+}
 
-    // --- 5. WEATHER WIDGET ---
-    const searchBtn = document.getElementById('search-btn');
-    if(searchBtn) {
-        const apiKey = 'YOUR_API_KEY_HERE'; // Masukkan API Key
-        const cityInput = document.getElementById('city-input');
+/* Efek garis bawah saat hover */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-gold);
+    transition: width 0.3s;
+}
 
-        searchBtn.addEventListener('click', () => {
-            const city = cityInput.value;
-            if(city) fetchWeather(city);
-        });
+.nav-links a:hover::after {
+    width: 100%;
+}
 
-        async function fetchWeather(city) {
-            document.querySelector('.loader').classList.remove('hidden');
-            document.querySelector('.weather-data').classList.add('hidden');
-            try {
-                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=id`);
-                if (!response.ok) throw new Error('Kota tidak ditemukan');
-                const data = await response.json();
-                
-                document.getElementById('temp-display').textContent = `${Math.round(data.main.temp)}°C`;
-                document.getElementById('desc-display').textContent = data.weather.description;
-                document.getElementById('humidity').textContent = `${data.main.humidity}%`;
-                document.getElementById('wind').textContent = `${data.wind.speed} m/s`;
-                
-                const iconCode = data.weather.icon;
-                document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-                document.querySelector('.weather-data').classList.remove('hidden');
-            } catch (error) {
-                alert(error.message);
-            } finally {
-                document.querySelector('.loader').classList.add('hidden');
-            }
-        }
-    }
-});
+.nav-links a.active {
+    color: var(--accent-gold);
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110%;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+}
+
+/* Ganti URL ini dengan aset asli Anda */
+.layer-bg { background: linear-gradient(to bottom, #2b32b2, #1488cc); z-index: 1; }
+.layer-mid { background-image: url('https://user-images.githubusercontent.com/18306059/224534729-e8538749-06b2-4d7a-b9c1-525c345b5971.png'); z-index: 2; background-repeat: no-repeat; background-position: bottom center; background-size: contain; }
+.layer-fg { background-image: url('https://user-images.githubusercontent.com/18306059/224534734-ec20302b-871d-4078-a359-00f3c054b419.png'); z-index: 3; background-position: bottom center; background-size: cover; }
+
+/* Halaman Sub-Header (Untuk halaman selain Home) */
+.sub-header {
+    height: 60vh;
+    background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.sub-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(23,61,28,0.3), var(--primary-green));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(4rem, 8vw, 7rem); /* Responsive font size */
+    line-height: 1;
+    margin-bottom: 1rem;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    color: var(--text-muted);
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 35px;
+    background-color: transparent;
+    color: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+.cta-button:hover {
+    background-color: var(--accent-gold);
+    color: var(--dark-green);
+    transform: translateY(-3px);
+}
+
+/* --- SECTION CONTENT (MINIMALIST) --- */
+.content-section {
+    padding: 120px 8%; /* Padding lebih besar */
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-header-clean {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.section-header-clean h2 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+}
+
+.section-header-clean p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Grid Layout untuk Kartu */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.minimal-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.minimal-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.05);
+}
+
+.card-image {
+    height: 250px;
+    background-color: #333;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.card-body h3 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--text-light);
+}
+
+.card-body p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.text-link {
+    color: var(--accent-gold);
+    text-decoration: none;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* --- FOOTER (CLEAN) --- */
+footer {
+    background-color: var(--dark-green);
+    padding: 80px 5% 40px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 30px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    list-style: none;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--text-light); }
+
+.copyright {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.3);
+}
+
+/* Helper Utilities */
+.hidden { display: none; }
