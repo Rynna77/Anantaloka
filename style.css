@@ -1,0 +1,230 @@
+/* style.css */
+
+/* Variabel Global untuk Konsistensi Tema */
+:root {
+    --primary-green: #173d1c;
+    --secondary-earth: #5e4a2b;
+    --accent-gold: #d8ba8c;
+    --text-light: #f6f6f6;
+    --font-heading: 'Amatic SC', cursive;
+    --font-body: 'Montserrat', sans-serif;
+    --transition-speed: 0.4s;
+}
+
+/* Reset Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--primary-green);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+    line-height: 1.6;
+}
+
+/* Navigasi */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+    transition: background 0.3s ease;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color var(--transition-speed);
+}
+
+.nav-links a:hover {
+    color: var(--accent-gold);
+}
+
+/* HERO SECTION - Kunci Efek Paralaks */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gaya Generik untuk Lapisan Paralaks */
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110%; /* Sedikit lebih tinggi untuk ruang gerak paralaks */
+    background-size: cover;
+    background-position: center;
+    will-change: transform; /* Optimasi performa rendering browser */
+}
+
+/* Lapisan Spesifik (Gunakan aset gambar PNG transparan di sini) */
+/* Ilustrasi: Langit paling belakang, Gunung di tengah, Pohon di depan */
+.layer-bg {
+    background: linear-gradient(to bottom, #2b32b2, #1488cc); /* Langit gradien */
+    z-index: 1;
+}
+
+.layer-mid {
+    /* Ganti url ini dengan gambar gunung PNG transparan */
+    background-image: url('https://user-images.githubusercontent.com/18306059/224534729-e8538749-06b2-4d7a-b9c1-525c345b5971.png'); 
+    z-index: 2;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
+}
+
+.layer-fg {
+    /* Ganti url ini dengan gambar pohon/lembah depan PNG transparan */
+    background-image: url('https://user-images.githubusercontent.com/18306059/224534734-ec20302b-871d-4078-a359-00f3c054b419.png');
+    z-index: 3;
+    background-position: bottom center;
+    background-size: cover;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    line-height: 1;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 40px;
+    background-color: var(--accent-gold);
+    color: var(--secondary-earth);
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(216, 186, 140, 0.4);
+}
+
+/* SECTION VIDEO BACKGROUND */
+.video-bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Memastikan video memenuhi area tanpa distorsi */
+}
+
+.overlay-dark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6); /* Gelapkan video agar teks terbaca */
+}
+
+.content-section {
+    position: relative;
+    padding: 150px 20px;
+    color: white;
+}
+
+/* PETA & CUACA */
+.interactive-section,.weather-section {
+    padding: 100px 5%;
+    background-color: var(--primary-green);
+}
+
+#trekking-map {
+    height: 500px;
+    width: 100%;
+    border-radius: 20px;
+    border: 4px solid var(--secondary-earth);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    margin-top: 40px;
+}
+
+.weather-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px); /* Efek kaca buram */
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+
+.weather-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.weather-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.weather-input button {
+    padding: 10px 20px;
+    background: var(--accent-gold);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Utilitas */
+.hidden { display: none; }
