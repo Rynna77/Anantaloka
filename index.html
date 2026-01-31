@@ -3,117 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jejak Rimba - The Ultimate Adventure</title>
+    <title>Kami Telah Pindah - Website Baru</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        /* Reset CSS dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Container Utama dengan Background Alam */
+        .bg-container {
+            /* Ganti URL di bawah ini jika ingin mengubah gambar background */
+            background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Lapisan Overlay Gelap agar tulisan terbaca */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Tingkat kegelapan overlay */
+            z-index: 1;
+        }
+
+        /* Kartu Glassmorphism (Efek Kaca) */
+        .card {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.15); /* Transparan putih */
+            backdrop-filter: blur(15px); /* Efek Blur */
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            color: #fff;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Tipografi */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #f0f0f0;
+        }
+
+        /* Desain Tombol */
+        .btn-new-site {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: #4CAF50; /* Warna Hijau Alam */
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            border: 2px solid transparent;
+        }
+
+        .btn-new-site:hover {
+            background-color: transparent;
+            border-color: #4CAF50;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+        }
+
+        /* Animasi Masuk */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsif untuk Layar Kecil (HP) */
+        @media (max-width: 480px) {
+            .card {
+                padding: 2rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    
-    <nav class="navbar">
-        <a href="#" class="logo">JEJAK RIMBA</a>
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#hero">Beranda</a></li>
-            <li><a href="#explore">Eksplorasi</a></li>
-            <li><a href="#cuaca">Cek Cuaca</a></li>
-        </ul>
-    </nav>
 
-    <header id="hero" class="hero-section">
-        <div class="parallax-bg"></div>
+    <div class="bg-container">
+        <div class="overlay"></div>
         
-        <div class="hero-content">
-            <h1 class="anim-text">Panggilan Alam Semesta</h1>
-            <p class="anim-text delay-1">Temukan kedamaian di antara lembah, sungai, dan pegunungan.</p>
-            <a href="#explore" class="btn-adventure anim-text delay-2">Mulai Petualangan</a>
+        <div class="card">
+            <h1>Kami Telah Pindah!</h1>
+            <p>
+                Website ini tidak lagi aktif. Kami telah beralih ke rumah baru dengan tampilan yang lebih segar dan fitur yang lebih baik. Silakan klik tombol di bawah untuk melanjutkan petualangan.
+            </p>
+            
+            <a href="https://rynna77.github.io/jejakrimba/" class="btn-new-site">
+                Kunjungi Web Baru →
+            </a>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <section class="content-section about-section">
-            <div class="container">
-                <h2 class="section-title reveal-type">Harmoni Bumi</h2>
-                <p class="text-center reveal-type">
-                    Setiap langkah di hutan adalah perjalanan pulang. Kami mengajak Anda untuk tidak hanya melihat, 
-                    tetapi merasakan detak jantung alam liar.
-                </p>
-            </div>
-        </section>
-
-        <section id="explore" class="content-section map-section">
-            <div class="container">
-                <h2 class="section-title reveal-type">Peta Ekspedisi</h2>
-                <p class="text-center reveal-type">Jelajahi rute terbaik dengan peta topografi detail.</p>
-                <div id="map-frame" class="reveal-type">
-                    <div id="map"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="cuaca" class="content-section weather-section">
-            <div class="container">
-                <h2 class="section-title reveal-type">Radar Cuaca</h2>
-                
-                <div class="weather-card reveal-type">
-                    <div class="weather-header">
-                        <button onclick="getLocation()" class="btn-location">📍 Deteksi Lokasi Saya</button>
-                        <div class="search-box">
-                            <input type="text" id="cityInput" placeholder="Cari Gunung/Kota...">
-                            <button onclick="getWeatherByCity()">🔍</button>
-                        </div>
-                    </div>
-
-                    <div id="loading" class="hidden">Sedang memindai satelit...</div>
-                    <div id="errorMsg" class="hidden error-text"></div>
-
-                    <div id="weatherResult" class="weather-display hidden">
-                        <div class="weather-main">
-                            <img id="wIcon" src="" alt="icon">
-                            <div>
-                                <h3 id="wTemp">0°C</h3>
-                                <p id="wDesc">Cerah</p>
-                            </div>
-                        </div>
-                        <div class="weather-details">
-                            <div class="detail-item">
-                                <span>Lokasi</span>
-                                <strong id="wCity">-</strong>
-                            </div>
-                            <div class="detail-item">
-                                <span>Angin</span>
-                                <strong id="wWind">-</strong>
-                            </div>
-                            <div class="detail-item">
-                                <span>Lembab</span>
-                                <strong id="wHum">-</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Jejak Rimba. Lestari Alamku.</p>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-    
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    
-    <script src="script.js"></script>
 </body>
 </html>
